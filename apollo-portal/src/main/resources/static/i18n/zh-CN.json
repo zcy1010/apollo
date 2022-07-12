@@ -574,7 +574,6 @@
   "UserMange.Edit": "编辑",
   "UserMange.Add": "添加用户",
   "UserMange.Back": "返回",
-  "UserMange.Search": "搜索",
   "Open.Manage.Title": "开放平台",
   "Open.Manage.CreateThirdApp": "创建第三方应用",
   "Open.Manage.CreateThirdAppTips": "（说明: 第三方应用可以通过 Apollo 开放平台来对配置进行管理）",
