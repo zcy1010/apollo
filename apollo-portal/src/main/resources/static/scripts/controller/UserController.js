@@ -22,8 +22,7 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
 
     $scope.user = {};
     $scope.createdUsers = [];
-    // $scope.hasMoreCreatedUsers = false
-    $scope.status = "1"
+    $scope.status = false
     $scope.changeStatus = changeStatus
 
     initPermission();
@@ -62,8 +61,6 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
                 email: user.email,
                 enabled: user.enabled,
             }
-        } else {
-
         }
     }
 

@@ -90,7 +90,7 @@ public class SpringSecurityUserService implements UserService {
 
   private List<UserPO> findUsers(String keyword) {
     if (StringUtils.isEmpty(keyword)) {
-      return userRepository.findAllByEnabled(1);
+      return (List<UserPO>) userRepository.findAll();
     }
     List<UserPO> users = new ArrayList<>();
     List<UserPO> byUsername = userRepository
