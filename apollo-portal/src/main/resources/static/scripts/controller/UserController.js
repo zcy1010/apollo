@@ -21,14 +21,50 @@ user_module.controller('UserController',
 function UserController($scope, $window, $translate, toastr, AppUtil, UserService, PermissionService) {
 
     $scope.user = {};
+    $scope.createdUsers = [];
+    // $scope.hasMoreCreatedUsers = false
+    $scope.status = "1"
+    $scope.changeStatus = changeStatus
 
     initPermission();
+
+    getCreatedUsers()
 
     function initPermission() {
         PermissionService.has_root_permission()
         .then(function (result) {
             $scope.isRootUser = result.hasPermission;
         })
+    }
+
+    function getCreatedUsers() {
+        var size = 10;
+        var createdUsersPage=0
+        UserService.find_users("",createdUsersPage, size)
+        .then(function (result) {
+            if (!result || result.length === 0) {
+                return;
+            }
+            result.forEach(function (app) {
+                $scope.createdUsers.push(app);
+            });
+
+        })
+    }
+
+    function changeStatus(status, user){
+        $scope.status = status
+        $scope.user = {}
+        if (user != null) {
+            $scope.user = {
+                username: user.userId,
+                userDisplayName: user.name,
+                email: user.email,
+                enabled: user.enabled,
+            }
+        } else {
+
+        }
     }
 
     $scope.createOrUpdateUser = function () {

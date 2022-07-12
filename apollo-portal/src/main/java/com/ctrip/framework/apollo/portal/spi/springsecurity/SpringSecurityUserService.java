@@ -61,7 +61,7 @@ public class SpringSecurityUserService implements UserService {
     UserPO managedUser = userRepository.findByUsername(username);
     if (managedUser == null) {
       user.setPassword(newPassword);
-      user.setEnabled(1);
+      user.setEnabled(user.getEnabled());
       userRepository.save(user);
 
       //save authorities
@@ -73,6 +73,7 @@ public class SpringSecurityUserService implements UserService {
       managedUser.setPassword(newPassword);
       managedUser.setEmail(user.getEmail());
       managedUser.setUserDisplayName(user.getUserDisplayName());
+      managedUser.setEnabled(user.getEnabled());
       userRepository.save(managedUser);
     }
   }
@@ -89,7 +90,7 @@ public class SpringSecurityUserService implements UserService {
 
   private List<UserPO> findUsers(String keyword) {
     if (StringUtils.isEmpty(keyword)) {
-      return userRepository.findFirst20ByEnabled(1);
+      return userRepository.findAllByEnabled(1);
     }
     List<UserPO> users = new ArrayList<>();
     List<UserPO> byUsername = userRepository
