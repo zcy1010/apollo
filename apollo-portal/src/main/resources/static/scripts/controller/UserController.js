@@ -22,12 +22,24 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
 
     $scope.user = {};
     $scope.createdUsers = [];
+    $scope.filterUser = [];
     $scope.status = false
+    $scope.showSearchUsernameInput = false
+    $scope.searchKey = ''
     $scope.changeStatus = changeStatus
+    $scope.toggleUsernameSearchInput = toggleUsernameSearchInput
+    $scope.searchUsers = searchUsers
+    $scope.resetSearchUser = resetSearchUser
 
     initPermission();
 
-    getCreatedUsers()
+    getCreatedUsers();
+
+    toggleUsernameSearchInput();
+
+    searchUsers();
+
+    resetSearchUser();
 
     function initPermission() {
         PermissionService.has_root_permission()
@@ -46,8 +58,8 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
             }
             result.forEach(function (app) {
                 $scope.createdUsers.push(app);
+                $scope.filterUser.push(app);
             });
-
         })
     }
 
@@ -62,6 +74,27 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
                 enabled: user.enabled,
             }
         }
+    }
+
+    function toggleUsernameSearchInput() {
+        $scope.showSearchUsernameInput = !$scope.showSearchUsernameInput
+    }
+
+    function searchUsers() {
+        $scope.searchKey = $scope.searchKey.toLowerCase();
+        var filterUser = []
+        $scope.createdUsers.forEach(function (item) {
+            var userLoginName = item.userId;
+            if (userLoginName && userLoginName.toLowerCase().indexOf( $scope.searchKey) >= 0) {
+                filterUser.push(item);
+            }
+        });
+        $scope.filterUser = filterUser
+    }
+
+    function resetSearchUser() {
+        $scope.searchKey = ''
+        searchUsers()
     }
 
     $scope.createOrUpdateUser = function () {

@@ -53,7 +53,23 @@
                                         class="btn btn-primary">
                                     {{'UserMange.Add' | translate }}
                                 </button>
+                                <button type="button" class="btn btn-default" data-tooltip="tooltip" data-placement="bottom"
+                                        title="{{'UserMange.SortByUserLoginName' | translate }}"  ng-click="toggleUsernameSearchInput()">
+                                    <span class="glyphicon glyphicon-filter"></span>
+                                    {{'UserMange.FilterUser' | translate }}
+                                </button>
                             </div>
+                            <div style="height: 15px"></div>
+                        </div>
+                        <div class="search-input" ng-show="!showSearchUsernameInput">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="searchUserInput"
+                                           placeholder="{{'UserMange.SortByUserLoginName' | translate }}"
+                                           ng-model="searchKey" ng-change="searchUsers()">
+                                </div>
+                                <button type="button" class="btn btn-default" ng-click="resetSearchUser()">{{'UserMange.Reset' | translate }}</button>
+                            </form>
                             <div style="height: 15px"></div>
                         </div>
                         <table class="table table-bordered table-striped table-hover">
@@ -64,7 +80,7 @@
                                 <th style="text-align: left">{{'UserMange.Enabled' | translate }}</th>
                                 <th style="text-align: left">{{'UserMange.Operation' | translate }}</th>
                             </tr>
-                            <tr ng-repeat="user in createdUsers" href="#" class="hover cursor-pointer">
+                            <tr ng-repeat="user in filterUser" href="#" class="hover cursor-pointer">
                                 <td>{{ user.userId }}</td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
