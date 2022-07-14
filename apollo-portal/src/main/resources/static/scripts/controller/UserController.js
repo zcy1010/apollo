@@ -23,7 +23,7 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
     $scope.user = {};
     $scope.createdUsers = [];
     $scope.filterUser = [];
-    $scope.status = false
+    $scope.status = '1'
     $scope.showSearchUsernameInput = false
     $scope.searchKey = ''
     $scope.changeStatus = changeStatus
@@ -100,6 +100,7 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
     $scope.createOrUpdateUser = function () {
         UserService.createOrUpdateUser($scope.user).then(function (result) {
             toastr.success($translate.instant('UserMange.Created'));
+            changeStatus('1')
         }, function (result) {
             AppUtil.showErrorMsg(result, $translate.instant('UserMange.CreateFailed'));
         })
