@@ -81,8 +81,8 @@ public class SpringSecurityUserService implements UserService {
   }
 
   @Override
-  public List<UserInfo> searchUsers(String keyword, int offset, int limit) {
-    List<UserPO> users = this.findUsers(keyword);
+  public List<UserInfo> searchUsers(String keyword, int offset, int limit, boolean includeInactiveUsers) {
+    List<UserPO> users = this.findUsers(keyword, includeInactiveUsers);
     if (CollectionUtils.isEmpty(users)) {
       return Collections.emptyList();
     }
@@ -90,9 +90,12 @@ public class SpringSecurityUserService implements UserService {
         .collect(Collectors.toList());
   }
 
-  private List<UserPO> findUsers(String keyword) {
-    if (StringUtils.isEmpty(keyword)) {
+  private List<UserPO> findUsers(String keyword, boolean includeInactiveUsers) {
+    if(includeInactiveUsers){
       return (List<UserPO>) userRepository.findAll();
+    }
+    if (StringUtils.isEmpty(keyword)) {
+      return userRepository.findFirst20ByEnabled(1);
     }
     Map<Long, UserPO> users = new HashMap<>();
     List<UserPO> byUsername = userRepository

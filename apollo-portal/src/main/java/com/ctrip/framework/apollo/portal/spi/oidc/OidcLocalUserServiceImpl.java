@@ -87,7 +87,7 @@ public class OidcLocalUserServiceImpl implements OidcLocalUserService {
   }
 
   @Override
-  public List<UserInfo> searchUsers(String keyword, int offset, int limit) {
+  public List<UserInfo> searchUsers(String keyword, int offset, int limit, boolean includeInactiveUsers) {
     List<UserPO> users = this.findUsers(keyword);
     if (CollectionUtils.isEmpty(users)) {
       return Collections.emptyList();

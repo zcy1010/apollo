@@ -88,9 +88,10 @@ public class UserInfoController {
 
   @GetMapping("/users")
   public List<UserInfo> searchUsersByKeyword(@RequestParam(value = "keyword") String keyword,
+      @RequestParam(value = "includeInactiveUsers", defaultValue = "false") boolean includeInactiveUsers,
       @RequestParam(value = "offset", defaultValue = "0") int offset,
       @RequestParam(value = "limit", defaultValue = "10") int limit) {
-    return userService.searchUsers(keyword, offset, limit);
+    return userService.searchUsers(keyword, offset, limit,includeInactiveUsers);
   }
 
   @GetMapping("/users/{userId}")

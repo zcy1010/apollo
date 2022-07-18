@@ -45,12 +45,11 @@ appService.service('UserService', ['$resource', '$q', 'AppUtil', function ($reso
                                     });
             return d.promise;
         },
-        find_users: function (keyword, offset, limit) {
+        find_users: function (keyword,includeInactiveUsers) {
             var d = $q.defer();
             user_resource.find_users({
                                          keyword: keyword,
-                                         offset: offset,
-                                         limit: limit
+                                         includeInactiveUsers: includeInactiveUsers
                                      },
                                      function (result) {
                                          d.resolve(result);

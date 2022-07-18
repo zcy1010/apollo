@@ -35,12 +35,6 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
 
     getCreatedUsers();
 
-    toggleUsernameSearchInput();
-
-    searchUsers();
-
-    resetSearchUser();
-
     function initPermission() {
         PermissionService.has_root_permission()
         .then(function (result) {
@@ -49,16 +43,16 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
     }
 
     function getCreatedUsers() {
-        var size = 10;
-        var createdUsersPage=0
-        UserService.find_users("",createdUsersPage, size)
+        UserService.find_users("",true)
         .then(function (result) {
             if (!result || result.length === 0) {
                 return;
             }
-            result.forEach(function (app) {
-                $scope.createdUsers.push(app);
-                $scope.filterUser.push(app);
+            $scope.createdUsers = [];
+            $scope.filterUser = [];
+            result.forEach(function (user) {
+                $scope.createdUsers.push(user);
+                $scope.filterUser.push(user);
             });
         })
     }
@@ -100,6 +94,7 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
     $scope.createOrUpdateUser = function () {
         UserService.createOrUpdateUser($scope.user).then(function (result) {
             toastr.success($translate.instant('UserMange.Created'));
+            getCreatedUsers()
             changeStatus('1')
         }, function (result) {
             AppUtil.showErrorMsg(result, $translate.instant('UserMange.CreateFailed'));
