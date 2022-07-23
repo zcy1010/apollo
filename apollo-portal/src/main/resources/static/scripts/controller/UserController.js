@@ -91,6 +91,15 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
         searchUsers()
     }
 
+    $scope.changeUserEnabled = function (user) {
+        UserService.change_user_enabled(user).then(function (result) {
+            toastr.success($translate.instant('UserMange.Enabled.succeed'));
+            getCreatedUsers()
+        }, function (result) {
+            AppUtil.showErrorMsg(result, $translate.instant('UserMange.Enabled.failure'));
+        })
+    }
+
     $scope.createOrUpdateUser = function () {
         UserService.createOrUpdateUser($scope.user).then(function (result) {
             toastr.success($translate.instant('UserMange.Created'));

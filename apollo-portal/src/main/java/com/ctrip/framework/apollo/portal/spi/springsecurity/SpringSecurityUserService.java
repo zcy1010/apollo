@@ -80,8 +80,21 @@ public class SpringSecurityUserService implements UserService {
     }
   }
 
+  @Transactional
+  public void changeEnabled(UserInfo user) {
+    String username = user.getUserId();
+    UserPO managedUser = userRepository.findByUsername(username);
+    if (user.getEnabled() == 1) {
+      managedUser.setEnabled(0);
+    } else {
+      managedUser.setEnabled(1);
+    }
+    userRepository.save(managedUser);
+  }
+
   @Override
-  public List<UserInfo> searchUsers(String keyword, int offset, int limit, boolean includeInactiveUsers) {
+  public List<UserInfo> searchUsers(String keyword, int offset, int limit,
+      boolean includeInactiveUsers) {
     List<UserPO> users = this.findUsers(keyword, includeInactiveUsers);
     if (CollectionUtils.isEmpty(users)) {
       return Collections.emptyList();
@@ -91,17 +104,23 @@ public class SpringSecurityUserService implements UserService {
   }
 
   private List<UserPO> findUsers(String keyword, boolean includeInactiveUsers) {
-    if(includeInactiveUsers){
-      return (List<UserPO>) userRepository.findAll();
-    }
-    if (StringUtils.isEmpty(keyword)) {
-      return userRepository.findFirst20ByEnabled(1);
-    }
     Map<Long, UserPO> users = new HashMap<>();
-    List<UserPO> byUsername = userRepository
-        .findByUsernameLikeAndEnabled("%" + keyword + "%", 1);
-    List<UserPO> byUserDisplayName = userRepository
-        .findByUserDisplayNameLikeAndEnabled("%" + keyword + "%", 1);
+    List<UserPO> byUsername;
+    List<UserPO> byUserDisplayName;
+    if (includeInactiveUsers) {
+      if (StringUtils.isEmpty(keyword)) {
+        return (List<UserPO>) userRepository.findAll();
+      }
+      byUsername = userRepository.findByUsernameLike("%" + keyword + "%");
+      byUserDisplayName = userRepository.findByUserDisplayNameLike("%" + keyword + "%");
+    } else {
+      if (StringUtils.isEmpty(keyword)) {
+        return userRepository.findFirst20ByEnabled(1);
+      }
+      byUsername = userRepository.findByUsernameLikeAndEnabled("%" + keyword + "%", 1);
+      byUserDisplayName = userRepository
+          .findByUserDisplayNameLikeAndEnabled("%" + keyword + "%", 1);
+    }
     if (!CollectionUtils.isEmpty(byUsername)) {
       for (UserPO user : byUsername) {
         users.put(user.getId(), user);

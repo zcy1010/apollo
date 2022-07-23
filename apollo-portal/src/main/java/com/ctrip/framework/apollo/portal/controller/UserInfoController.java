@@ -76,6 +76,16 @@ public class UserInfoController {
     }
   }
 
+  @PreAuthorize(value = "@permissionValidator.isSuperAdmin()")
+  @PostMapping("/users/enabled")
+  public void changeUserEnabled(@RequestBody UserInfo user) {
+    if (userService instanceof SpringSecurityUserService) {
+      ((SpringSecurityUserService) userService).changeEnabled(user);
+    } else {
+      throw new UnsupportedOperationException("change user enabled is unsupported");
+    }
+  }
+
   @GetMapping("/user")
   public UserInfo getCurrentUserName() {
     return userInfoHolder.getUser();
@@ -91,7 +101,7 @@ public class UserInfoController {
       @RequestParam(value = "includeInactiveUsers", defaultValue = "false") boolean includeInactiveUsers,
       @RequestParam(value = "offset", defaultValue = "0") int offset,
       @RequestParam(value = "limit", defaultValue = "10") int limit) {
-    return userService.searchUsers(keyword, offset, limit,includeInactiveUsers);
+    return userService.searchUsers(keyword, offset, limit, includeInactiveUsers);
   }
 
   @GetMapping("/users/{userId}")

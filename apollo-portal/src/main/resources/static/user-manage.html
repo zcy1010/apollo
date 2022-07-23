@@ -98,6 +98,9 @@
                                     <span class="btn btn-primary" ng-click="changeStatus('3', user)">
                                         {{'UserMange.Edit' | translate }}
                                     </span>
+                                    <span class="btn btn-primary" ng-click="changeUserEnabled(user)">
+                                        {{'UserMange.Enabled' | translate }}
+                                    </span>
                                 </td>
                             </tr>
                         </table>
@@ -140,7 +143,7 @@
                                 {{'UserMange.Email' | translate }}
                             </label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" name="password" ng-model="user.email">
+                                <input type="text" class="form-control" name="email" ng-model="user.email">
                             </div>
                         </div>
                             <div class="form-group" valdr-form-group>

@@ -569,6 +569,8 @@
   "UserMange.Email": "邮箱",
   "UserMange.Created": "创建用户成功",
   "UserMange.CreateFailed": "创建用户失败",
+  "UserMange.Enabled.succeed": "修改用户状态成功",
+  "UserMange.Enabled.failure": "修改用户状态失败",
   "UserMange.Enabled": "用户状态",
   "UserMange.Enable": "启用",
   "UserMange.Disable": "禁用",

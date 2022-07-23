@@ -23,7 +23,11 @@ appService.service('UserService', ['$resource', '$q', 'AppUtil', function ($reso
         find_users: {
             method: 'GET',
             isArray: true,
-            url: AppUtil.prefixPath() + '/users?keyword=:keyword&offset=:offset&limit=:limit'
+            url: AppUtil.prefixPath() + '/users?keyword=:keyword&includeInactiveUsers=:includeInactiveUsers&offset=:offset&limit=:limit'
+        },
+        change_user_enabled: {
+            method: 'POST',
+            url: AppUtil.prefixPath() + '/users/enabled'
         },
         create_or_update_user: {
             method: 'POST',
@@ -45,7 +49,7 @@ appService.service('UserService', ['$resource', '$q', 'AppUtil', function ($reso
                                     });
             return d.promise;
         },
-        find_users: function (keyword,includeInactiveUsers) {
+        find_users: function (keyword, includeInactiveUsers) {
             var d = $q.defer();
             user_resource.find_users({
                                          keyword: keyword,
@@ -58,6 +62,17 @@ appService.service('UserService', ['$resource', '$q', 'AppUtil', function ($reso
                                          d.reject(result);
                                      });
             return d.promise;
+        },
+        change_user_enabled: function (user) {
+          var d = $q.defer();
+          user_resource.change_user_enabled({}, user,
+                                     function (result) {
+                                         d.resolve(result)
+                                     },
+                                     function (result) {
+                                         d.reject(result);
+                                     });
+          return d.promise;
         },
         createOrUpdateUser: function (user) {
             var d = $q.defer();
