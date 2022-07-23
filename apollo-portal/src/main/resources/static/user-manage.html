@@ -99,7 +99,7 @@
                                         {{'UserMange.Edit' | translate }}
                                     </span>
                                     <span class="btn btn-primary" ng-click="changeUserEnabled(user)">
-                                        {{'UserMange.Enabled' | translate }}
+                                        {{user.enabled === 1 ? ('UserMange.Disable'| translate) : ('UserMange.Enable'|translate) }}
                                     </span>
                                 </td>
                             </tr>

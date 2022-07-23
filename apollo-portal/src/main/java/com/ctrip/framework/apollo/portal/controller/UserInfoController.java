@@ -78,7 +78,7 @@ public class UserInfoController {
 
   @PreAuthorize(value = "@permissionValidator.isSuperAdmin()")
   @PostMapping("/users/enabled")
-  public void changeUserEnabled(@RequestBody UserInfo user) {
+  public void changeUserEnabled(@RequestBody UserPO user) {
     if (userService instanceof SpringSecurityUserService) {
       ((SpringSecurityUserService) userService).changeEnabled(user);
     } else {

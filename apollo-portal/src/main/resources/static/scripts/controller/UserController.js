@@ -92,7 +92,16 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
     }
 
     $scope.changeUserEnabled = function (user) {
-        UserService.change_user_enabled(user).then(function (result) {
+        var newUser={}
+        if (user != null) {
+            newUser = {
+                username: user.userId,
+                userDisplayName: user.name,
+                email: user.email,
+                enabled: user.enabled,
+            }
+        }
+        UserService.change_user_enabled(newUser).then(function (result) {
             toastr.success($translate.instant('UserMange.Enabled.succeed'));
             getCreatedUsers()
         }, function (result) {
