@@ -87,11 +87,11 @@
                                 <td>
                                     <span class="label label-primary no-radius namespace-label" data-tooltip="tooltip"
                                           data-placement="bottom"
-                                          ng-show="user.enabled === 1">{{('UserMange.Enable'| translate)}}
+                                          ng-show="user.enabled === 1">{{('UserMange.Enable' | translate)}}
                                     </span>
                                     <span class="label label-warning no-radius cursor-pointer" data-tooltip="tooltip"
                                           data-placement="bottom"
-                                          ng-show="user.enabled === 0">{{('UserMange.Disable'| translate)}}
+                                          ng-show="user.enabled === 0">{{('UserMange.Disable' | translate)}}
                                     </span>
                                 </td>
                                 <td>
@@ -99,7 +99,7 @@
                                         {{'UserMange.Edit' | translate }}
                                     </span>
                                     <span class="btn btn-primary" ng-click="changeUserEnabled(user)">
-                                        {{user.enabled === 1 ? ('UserMange.Disable'| translate) : ('UserMange.Enable'|translate) }}
+                                        {{user.enabled === 1 ? ('UserMange.Disable' | translate) : ('UserMange.Enable' | translate) }}
                                     </span>
                                 </td>
                             </tr>
@@ -108,7 +108,7 @@
                     <div ng-show="status==='2' || status==='3'">
                         <form class="form-horizontal panel-body" name="appForm"
                               valdr-type="App" ng-submit="createOrUpdateUser()">
-                            <span>{{status==='3' ? ('UserMange.Edit'| translate) : ('UserMange.Add'|translate) }}</span>
+                            <span>{{status==='3' ? ('UserMange.Edit' | translate) : ('UserMange.Add' | translate) }}</span>
                         <div class="form-group" valdr-form-group>
                             <label class="col-sm-2 control-label">
                                 <apollorequiredfield></apollorequiredfield>
@@ -160,9 +160,9 @@
                             <div class="col-sm-offset-2 col-sm-9">
 
                                 <button type="submit" class="btn btn-primary"
-                                        ng-disabled="appForm.$invalid || submitBtnDisabled">{{status==='3' ? ('UserMange.Save'| translate) : ('Common.Submit'|translate) }}
+                                        ng-disabled="appForm.$invalid || submitBtnDisabled">{{status==='3' ? ('UserMange.Save' | translate) : ('Common.Submit' | translate) }}
                                 </button>
-                                <button type="button" ng-click="changeStatus('1')" class="btn">{{status==='3' ? ('UserMange.Cancel'| translate) : ('UserMange.Back'|translate) }}</button>
+                                <button type="button" ng-click="changeStatus('1')" class="btn">{{status==='3' ? ('UserMange.Cancel' | translate) : ('UserMange.Back' | translate) }}</button>
                             </div>
                         </div>
                     </form>
