@@ -34,6 +34,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,7 +78,7 @@ public class UserInfoController {
   }
 
   @PreAuthorize(value = "@permissionValidator.isSuperAdmin()")
-  @PostMapping("/users/enabled")
+  @PutMapping("/users/enabled")
   public void changeUserEnabled(@RequestBody UserPO user) {
     if (userService instanceof SpringSecurityUserService) {
       ((SpringSecurityUserService) userService).changeEnabled(user);

@@ -84,11 +84,7 @@ public class SpringSecurityUserService implements UserService {
   public void changeEnabled(UserPO user) {
     String username = user.getUsername();
     UserPO managedUser = userRepository.findByUsername(username);
-    if (user.getEnabled() == 1) {
-      managedUser.setEnabled(0);
-    } else {
-      managedUser.setEnabled(1);
-    }
+    managedUser.setEnabled(user.getEnabled());
     userRepository.save(managedUser);
   }
 

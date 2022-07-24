@@ -26,7 +26,7 @@ appService.service('UserService', ['$resource', '$q', 'AppUtil', function ($reso
             url: AppUtil.prefixPath() + '/users?keyword=:keyword&includeInactiveUsers=:includeInactiveUsers&offset=:offset&limit=:limit'
         },
         change_user_enabled: {
-            method: 'POST',
+            method: 'PUT',
             url: AppUtil.prefixPath() + '/users/enabled'
         },
         create_or_update_user: {

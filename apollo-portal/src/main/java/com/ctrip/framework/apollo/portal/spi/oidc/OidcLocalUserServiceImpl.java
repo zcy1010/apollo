@@ -101,13 +101,13 @@ public class OidcLocalUserServiceImpl implements OidcLocalUserService {
     Map<Long, UserPO> users = new HashMap<>();
     List<UserPO> byUsername;
     List<UserPO> byUserDisplayName;
-    if(includeInactiveUsers){
+    if (includeInactiveUsers) {
       if (StringUtils.isEmpty(keyword)) {
         return (List<UserPO>) userRepository.findAll();
       }
       byUsername = userRepository.findByUsernameLike("%" + keyword + "%");
       byUserDisplayName = userRepository.findByUserDisplayNameLike("%" + keyword + "%");
-    }else {
+    } else {
       if (StringUtils.isEmpty(keyword)) {
         return userRepository.findFirst20ByEnabled(1);
       }
