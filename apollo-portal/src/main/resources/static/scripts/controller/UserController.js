@@ -98,7 +98,7 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
                 username: user.userId,
                 userDisplayName: user.name,
                 email: user.email,
-                enabled: 1-user.enabled,
+                enabled: user.enabled === 1 ? 0 : 1,
             }
         }
         UserService.change_user_enabled(newUser).then(function (result) {
