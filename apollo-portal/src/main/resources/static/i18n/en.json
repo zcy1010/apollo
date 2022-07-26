@@ -569,6 +569,8 @@
   "UserMange.Email": "Email",
   "UserMange.Created": "Create user successfully",
   "UserMange.CreateFailed": "Failed to create user",
+  "UserMange.Edited": "Edit user successfully",
+  "UserMange.EditedFailed": "Failed to Edit user",
   "UserMange.Enabled.succeed": "Change user enabled successfully",
   "UserMange.Enabled.failure": "Failed to change user enabled",
   "UserMange.Enabled": "Enabled",

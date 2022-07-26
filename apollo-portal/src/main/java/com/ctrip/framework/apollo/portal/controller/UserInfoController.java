@@ -60,7 +60,9 @@ public class UserInfoController {
 
   @PreAuthorize(value = "@permissionValidator.isSuperAdmin()")
   @PostMapping("/users")
-  public void createOrUpdateUser(@RequestBody UserPO user) {
+  public void createOrUpdateUser(
+      @RequestParam(value = "isCreate", defaultValue = "false") boolean isCreate,
+      @RequestBody UserPO user) {
     if (StringUtils.isContainEmpty(user.getUsername(), user.getPassword())) {
       throw new BadRequestException("Username and password can not be empty.");
     }
@@ -71,7 +73,11 @@ public class UserInfoController {
     }
 
     if (userService instanceof SpringSecurityUserService) {
-      ((SpringSecurityUserService) userService).createOrUpdate(user);
+      if (isCreate) {
+        ((SpringSecurityUserService) userService).create(user);
+      } else {
+        ((SpringSecurityUserService) userService).update(user);
+      }
     } else {
       throw new UnsupportedOperationException("Create or update user operation is unsupported");
     }

@@ -16,6 +16,7 @@
  */
 package com.ctrip.framework.apollo.portal.spi.springsecurity;
 
+import com.ctrip.framework.apollo.common.exception.BadRequestException;
 import com.ctrip.framework.apollo.core.utils.StringUtils;
 import com.ctrip.framework.apollo.portal.entity.bo.UserInfo;
 import com.ctrip.framework.apollo.portal.entity.po.Authority;
@@ -56,28 +57,38 @@ public class SpringSecurityUserService implements UserService {
   }
 
   @Transactional
-  public void createOrUpdate(UserPO user) {
+  public void create(UserPO user) {
     String username = user.getUsername();
     String newPassword = passwordEncoder.encode(user.getPassword());
+    UserPO managedUser = userRepository.findByUsername(username);
+    if (managedUser != null) {
+      throw new BadRequestException("User %s already exists", username);
+    }
+    //create
+    user.setPassword(newPassword);
+    user.setEnabled(user.getEnabled());
+    userRepository.save(user);
 
+    //save authorities
+    Authority authority = new Authority();
+    authority.setUsername(username);
+    authority.setAuthority("ROLE_user");
+    authorityRepository.save(authority);
+  }
+
+  @Transactional
+  public void update(UserPO user) {
+    String username = user.getUsername();
+    String newPassword = passwordEncoder.encode(user.getPassword());
     UserPO managedUser = userRepository.findByUsername(username);
     if (managedUser == null) {
-      user.setPassword(newPassword);
-      user.setEnabled(user.getEnabled());
-      userRepository.save(user);
-
-      //save authorities
-      Authority authority = new Authority();
-      authority.setUsername(username);
-      authority.setAuthority("ROLE_user");
-      authorityRepository.save(authority);
-    } else {
-      managedUser.setPassword(newPassword);
-      managedUser.setEmail(user.getEmail());
-      managedUser.setUserDisplayName(user.getUserDisplayName());
-      managedUser.setEnabled(user.getEnabled());
-      userRepository.save(managedUser);
+      throw new BadRequestException("User does not exist, please create a new user.");
     }
+    managedUser.setPassword(newPassword);
+    managedUser.setEmail(user.getEmail());
+    managedUser.setUserDisplayName(user.getUserDisplayName());
+    managedUser.setEnabled(user.getEnabled());
+    userRepository.save(managedUser);
   }
 
   @Transactional

@@ -110,13 +110,24 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
     }
 
     $scope.createOrUpdateUser = function () {
-        UserService.createOrUpdateUser($scope.user).then(function (result) {
-            toastr.success($translate.instant('UserMange.Created'));
-            getCreatedUsers()
-            changeStatus('1')
-        }, function (result) {
-            AppUtil.showErrorMsg(result, $translate.instant('UserMange.CreateFailed'));
-        })
+        if ($scope.status === '2') {
+            UserService.createOrUpdateUser(true, $scope.user).then(function (result) {
+                toastr.success($translate.instant('UserMange.Created'));
+                getCreatedUsers()
+                changeStatus('1')
+            }, function (result) {
+                AppUtil.showErrorMsg(result, $translate.instant('UserMange.CreateFailed'));
+            })
+        } else {
+            UserService.createOrUpdateUser(false,$scope.user).then(function (result) {
+                toastr.success($translate.instant('UserMange.Edited'));
+                getCreatedUsers()
+                changeStatus('1')
+            }, function (result) {
+                AppUtil.showErrorMsg(result, $translate.instant('UserMange.EditedFailed'));
+            })
+        }
+
 
     }
 }

@@ -31,7 +31,7 @@ appService.service('UserService', ['$resource', '$q', 'AppUtil', function ($reso
         },
         create_or_update_user: {
             method: 'POST',
-            url: AppUtil.prefixPath() + '/users'
+            url: AppUtil.prefixPath() + '/users?isCreate=:isCreate'
         }
     });
     return {
@@ -74,9 +74,11 @@ appService.service('UserService', ['$resource', '$q', 'AppUtil', function ($reso
                                      });
           return d.promise;
         },
-        createOrUpdateUser: function (user) {
+        createOrUpdateUser: function (isCreate, user) {
             var d = $q.defer();
-            user_resource.create_or_update_user({}, user,
+            user_resource.create_or_update_user({
+                                     isCreate: isCreate
+                                     }, user,
                                      function (result) {
                                          d.resolve(result);
                                      },
