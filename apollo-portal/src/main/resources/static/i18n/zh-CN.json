@@ -564,7 +564,6 @@
   "UserMange.TitleTips": "（仅对默认的 Spring Security 简单认证方式有效: -Dapollo_profile=github,auth）",
   "UserMange.UserName": "用户登录账户",
   "UserMange.UserDisplayName": "用户名称",
-  "UserMange.UserNameTips": "输入的用户名如果不存在，则新建。若已存在，则更新。",
   "UserMange.Pwd": "密码",
   "UserMange.Email": "邮箱",
   "UserMange.Created": "创建用户成功",
