@@ -124,7 +124,7 @@ function UserController($scope, $window, $translate, toastr, AppUtil, UserServic
                 getCreatedUsers()
                 changeStatus('1')
             }, function (result) {
-                AppUtil.showErrorMsg(result, $translate.instant('UserMange.EditedFailed'));
+                AppUtil.showErrorMsg(result, $translate.instant('UserMange.EditFailed'));
             })
         }
 

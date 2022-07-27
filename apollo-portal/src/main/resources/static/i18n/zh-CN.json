@@ -569,7 +569,7 @@
   "UserMange.Created": "创建用户成功",
   "UserMange.CreateFailed": "创建用户失败",
   "UserMange.Edited": "编辑用户成功",
-  "UserMange.EditedFailed": "编辑用户失败",
+  "UserMange.EditFailed": "编辑用户失败",
   "UserMange.Enabled.succeed": "修改用户状态成功",
   "UserMange.Enabled.failure": "修改用户状态失败",
   "UserMange.Enabled": "用户状态",
