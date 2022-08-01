@@ -30,6 +30,7 @@ import com.ctrip.framework.apollo.portal.entity.bo.NamespaceBO;
 import com.ctrip.framework.apollo.portal.entity.bo.UserInfo;
 import com.ctrip.framework.apollo.portal.spi.UserInfoHolder;
 
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -39,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -119,6 +121,10 @@ public class NamespaceServiceTest extends AbstractUnitTest {
 
     List<NamespaceBO> namespaceVOs = namespaceService.findNamespaceBOs(testAppId, Env.DEV, testClusterName);
     assertEquals(2, namespaceVOs.size());
+
+    when(namespaceAPI.findNamespaceByCluster(testAppId, Env.DEV, testClusterName)).thenReturn(Lists.list(application));
+    namespaceVOs = namespaceService.findNamespaceBOs(testAppId, Env.DEV, testClusterName);
+    assertEquals(1, namespaceVOs.size());
     NamespaceBO namespaceVO = namespaceVOs.get(0);
     assertEquals(4, namespaceVO.getItems().size());
     assertEquals("a", namespaceVO.getItems().get(0).getItem().getKey());
@@ -126,6 +132,13 @@ public class NamespaceServiceTest extends AbstractUnitTest {
     assertEquals(testAppId, namespaceVO.getBaseInfo().getAppId());
     assertEquals(testClusterName, namespaceVO.getBaseInfo().getClusterName());
     assertEquals(testNamespaceName, namespaceVO.getBaseInfo().getNamespaceName());
+
+    ReleaseDTO errorRelease = new ReleaseDTO();
+    errorRelease.setConfigurations("\"a\":\"123\",\"b\":\"123\"");
+    when(releaseService.loadLatestRelease(testAppId, Env.DEV, testClusterName, testNamespaceName)).thenReturn(errorRelease);
+    assertThatExceptionOfType(RuntimeException.class)
+        .isThrownBy(()-> namespaceService.findNamespaceBOs(testAppId, Env.DEV, testClusterName))
+        .withMessageStartingWith("Parse namespaces error, expected: 1, but actual: 0, cannot get those namespaces: [application]");
 
   }
 
